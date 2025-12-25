@@ -1,0 +1,27 @@
+.root {
+  font-family: "PermanentMarker";
+  font-size: clamp(1rem, 2.5vh, 10rem);
+  width: fit-content;
+  height: fit-content;
+}
+
+/*Style for positioning inside parent*/
+.topLeft {
+  position: absolute;
+  top: 1%;
+  left: 1%;
+}
+.bottomRight {
+  position: absolute;
+  bottom: 1%;
+  right: 1%;
+}
+
+/*Style for indenting lines*/
+.indent1 {
+  text-indent: clamp(0.2rem, 1.8vw, 10rem);
+}
+
+.indent2 {
+  text-indent: clamp(0.2rem, 3.6vw, 10rem);
+}

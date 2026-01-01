@@ -2,3 +2,13 @@
   font-family: "PermanentMarker";
   src: url(./PermanentMarker-Regular.ttf) format("truetype");
 }
+
+@font-face {
+  font-family: "Poppins";
+  src: url(./Poppins-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "PoppinsBold";
+  src: url(./Poppins-Bold.ttf) format("truetype");
+}

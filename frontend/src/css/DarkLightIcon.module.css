@@ -1,0 +1,16 @@
+.root {
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  width: fit-content;
+  height: fit-content;
+}
+
+.root img {
+  width: clamp(1rem, 3dvw, 5rem);
+  height: auto;
+}
+
+.root:hover {
+  cursor: pointer;
+}

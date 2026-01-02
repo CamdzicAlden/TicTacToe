@@ -5,19 +5,16 @@ import { useEffect, useState } from "react";
 function DarkLightIcon() {
   const { theme, toggleTheme } = useTheme();
   const [hover, setHover] = useState(false);
-  const [image, setImage] = useState(" ");
 
-  useEffect(() => {
-    setImage(
-      theme === "dark"
-        ? hover
-          ? "/icons/SunFill.svg"
-          : "/icons/SunEmpty.svg"
-        : hover
-        ? "/icons/MoonFill.svg"
-        : "/icons/MoonEmpty.svg"
-    );
-  }, [hover, theme]);
+  //Logic for setting image depending on theme and hover state
+  const image =
+    theme === "dark"
+      ? hover
+        ? "/icons/SunFill.svg"
+        : "/icons/SunEmpty.svg"
+      : hover
+      ? "/icons/MoonFill.svg"
+      : "/icons/MoonEmpty.svg";
 
   return (
     <div className={iconStyle.root}>

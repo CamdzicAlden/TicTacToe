@@ -1,8 +1,8 @@
 import TicTacToe from "../components/TicTacToe";
 import NavigationButton from "../components/NavigationButton";
+import DarkLightIcon from "../components/DarkLightIcon";
 
 import pageStyle from "../css/LandingPage.module.css";
-import DarkLightIcon from "../components/DarkLightIcon";
 
 function LandingPage() {
   return (
@@ -11,8 +11,8 @@ function LandingPage() {
       <TicTacToe className="bottomRight" />
       <DarkLightIcon />
 
-      <NavigationButton content={"1 PLAYER"} className="darkMode" />
-      <NavigationButton content={"2 PLAYERS"} className="darkMode" />
+      <NavigationButton content={"1 PLAYER"} />
+      <NavigationButton content={"2 PLAYERS"} />
     </div>
   );
 }

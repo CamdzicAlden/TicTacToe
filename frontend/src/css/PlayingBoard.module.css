@@ -1,8 +1,16 @@
 .root {
   stroke: none;
   stroke-linecap: round;
-  width: clamp(1rem, 20dvw, 50rem);
   color: #fafafa;
+}
+
+.size1 {
+  width: clamp(1rem, 25dvw, 50rem);
+  height: auto;
+}
+
+.size2 {
+  width: clamp(1rem, 35dvw, 50rem);
   height: auto;
 }
 
@@ -24,4 +32,11 @@
 
 .O {
   fill: #1e88e5;
+}
+
+.X,
+.O {
+  font-family: "MontserratBold";
+  text-shadow: 0 clamp(0.1rem, 0.5dvh, 2rem) clamp(0.1rem, 0.5dvh, 2rem)
+    rgba(0, 0, 0, 0.25);
 }

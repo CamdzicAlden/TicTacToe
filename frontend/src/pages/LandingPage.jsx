@@ -2,7 +2,7 @@ import TicTacToe from "../components/TicTacToe";
 import NavigationButton from "../components/NavigationButton";
 import DarkLightIcon from "../components/DarkLightIcon";
 
-import pageStyle from "../css/LandingPage.module.css";
+import pageStyle from "../css/PageStyle.module.css";
 import PlayingBoard from "../components/PlayingBoard";
 import { Link } from "react-router-dom";
 
@@ -13,14 +13,17 @@ function LandingPage() {
       <TicTacToe className="bottomRight" />
       <DarkLightIcon />
 
-      <PlayingBoard clickingEnabled={false} />
-      <Link to="/onePlayer">
-        <NavigationButton content={"1 PLAYER"} />
-      </Link>
+      <PlayingBoard clickingEnabled={false} page="landing" />
 
-      <Link to="/twoPlayers">
-        <NavigationButton content={"2 PLAYERS"} />
-      </Link>
+      <div className={pageStyle.navButtons}>
+        <Link to="/onePlayer">
+          <NavigationButton content={"1 PLAYER"} />
+        </Link>
+
+        <Link to="/twoPlayers">
+          <NavigationButton content={"2 PLAYERS"} />
+        </Link>
+      </div>
     </div>
   );
 }

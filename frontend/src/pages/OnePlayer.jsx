@@ -1,7 +1,14 @@
-import pageStyle from "../css/LandingPage.module.css";
+import DarkLightIcon from "../components/DarkLightIcon";
+import PlayingBoard from "../components/PlayingBoard";
+import pageStyle from "../css/PageStyle.module.css";
 
 function OnePlayer() {
-  return <div className={pageStyle.root}></div>;
+  return (
+    <div className={pageStyle.root}>
+      <DarkLightIcon />
+      <PlayingBoard clickingEnabled={true} />
+    </div>
+  );
 }
 
 export default OnePlayer;

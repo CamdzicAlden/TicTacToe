@@ -1,0 +1,23 @@
+.root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: clamp(0.2rem, 15dvh, 10rem);
+  margin-bottom: 100px;
+}
+
+.navButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(0.2rem, 1.5dvh, 10rem);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

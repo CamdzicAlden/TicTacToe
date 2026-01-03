@@ -1,0 +1,23 @@
+.root {
+  stroke: none;
+  stroke-linecap: round;
+  width: clamp(1rem, 20dvw, 50rem);
+  color: #fafafa;
+  height: auto;
+}
+
+line {
+  stroke: #fafafa;
+}
+
+.cell {
+  cursor: pointer;
+}
+
+.X {
+  fill: #e53935;
+}
+
+.O {
+  fill: #1e88e5;
+}

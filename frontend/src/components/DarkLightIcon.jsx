@@ -1,6 +1,6 @@
 import iconStyle from "../css/DarkLightIcon.module.css";
 import { useTheme } from "../contexts/ThemeContext.jsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function DarkLightIcon() {
   const { theme, toggleTheme } = useTheme();

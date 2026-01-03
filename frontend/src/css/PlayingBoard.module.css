@@ -6,8 +6,12 @@
   height: auto;
 }
 
-line {
+.darkMode line {
   stroke: #fafafa;
+}
+
+.lightMode line {
+  stroke: #2c2c2c;
 }
 
 .cell {

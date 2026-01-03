@@ -1,7 +1,9 @@
+import { useTheme } from "../contexts/ThemeContext";
 import boardStyles from "../css/PlayingBoard.module.css";
 import { useState } from "react";
 
 function PlayingBoard({ clickingEnabled }) {
+  const { theme, setTheme } = useTheme();
   const [board, setBoard] = useState(Array(9).fill(null));
   const [turn, setTurn] = useState("X");
 
@@ -17,7 +19,12 @@ function PlayingBoard({ clickingEnabled }) {
   }
 
   return (
-    <svg viewBox="0 0 101 101" className={boardStyles.root}>
+    <svg
+      viewBox="0 0 101 101"
+      className={`${boardStyles.root} ${
+        theme === "dark" ? boardStyles.darkMode : boardStyles.lightMode
+      }`}
+    >
       <line x1="33" y1="1" x2="33" y2="100" />
       <line x1="66" y1="1" x2="66" y2="100" />
       <line x1="1" y1="33" x2="100" y2="33" />
@@ -28,6 +35,7 @@ function PlayingBoard({ clickingEnabled }) {
           key={index}
           index={index}
           value={value}
+          clickingEnabled={clickingEnabled}
           onClick={() => clickingEnabled && handleClick}
         />
       ))}
@@ -37,7 +45,7 @@ function PlayingBoard({ clickingEnabled }) {
 
 export default PlayingBoard;
 
-function Cell({ index, value, onClick }) {
+function Cell({ index, value, onClick, clickingEnabled }) {
   const size = 33;
 
   const col = index % 3;
@@ -47,7 +55,10 @@ function Cell({ index, value, onClick }) {
   const y = row * size;
 
   return (
-    <g onClick={() => onClick(index)}>
+    <g
+      onClick={() => clickingEnabled && onClick(index)}
+      className={clickingEnabled && boardStyles.cell}
+    >
       <rect x={x} y={y} width={size} height={size} fill="transparent" />
 
       {value && (

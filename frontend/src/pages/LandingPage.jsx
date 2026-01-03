@@ -4,6 +4,7 @@ import DarkLightIcon from "../components/DarkLightIcon";
 
 import pageStyle from "../css/LandingPage.module.css";
 import PlayingBoard from "../components/PlayingBoard";
+import { Link } from "react-router-dom";
 
 function LandingPage() {
   return (
@@ -13,8 +14,13 @@ function LandingPage() {
       <DarkLightIcon />
 
       <PlayingBoard clickingEnabled={false} />
-      <NavigationButton content={"1 PLAYER"} />
-      <NavigationButton content={"2 PLAYERS"} />
+      <Link to="/onePlayer">
+        <NavigationButton content={"1 PLAYER"} />
+      </Link>
+
+      <Link to="/twoPlayers">
+        <NavigationButton content={"2 PLAYERS"} />
+      </Link>
     </div>
   );
 }

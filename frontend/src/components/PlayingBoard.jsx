@@ -1,14 +1,38 @@
 import { useTheme } from "../contexts/ThemeContext";
 import boardStyles from "../css/PlayingBoard.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function PlayingBoard({ clickingEnabled, page }) {
-  const { theme, setTheme } = useTheme();
+function PlayingBoard({
+  clickingEnabled,
+  page,
+  mode,
+  setPl1Score,
+  setPl2Score,
+}) {
+  const { theme } = useTheme();
   const [board, setBoard] = useState(Array(9).fill(null));
+
   const [turn, setTurn] = useState("X");
+  const winningCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  const winner = calculateWinner(board);
 
   //Function for handling clicks
   function handleClick(index) {
+    if (winner) {
+      setBoard(Array(9).fill(null));
+      setTurn("X");
+      return;
+    }
     if (board[index]) return;
 
     const nextBoard = [...board];
@@ -17,6 +41,44 @@ function PlayingBoard({ clickingEnabled, page }) {
 
     setTurn(turn === "X" ? "O" : "X");
   }
+
+  function calculateWinner(board) {
+    for (let combo of winningCombos) {
+      const [a, b, c] = combo;
+      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+        return board[a];
+      }
+    }
+    return null;
+  }
+
+  useEffect(() => {
+    if (winner === "X") setPl1Score((prev) => prev + 1);
+    else if (winner === "O") setPl2Score((prev) => prev + 1);
+  }, [winner]);
+
+  useEffect(() => {
+    if (mode !== "onePlayer") return;
+    if (turn !== "O") return;
+    if (winner) return;
+
+    const emptyCells = board
+      .map((value, index) => (value === null ? index : null))
+      .filter((v) => v !== null);
+
+    if (emptyCells.length === 0) return;
+
+    const randomIndex =
+      emptyCells[Math.floor(Math.random() * emptyCells.length)];
+
+    const nextBoard = [...board];
+    nextBoard[randomIndex] = "O";
+
+    setTimeout(() => {
+      setBoard(nextBoard);
+      setTurn("X");
+    }, 500);
+  }, [board, turn, mode, winner]);
 
   return (
     <svg

@@ -1,0 +1,9 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "PoppinsBold";
+  font-size: clamp(0.2rem, 2.2dvh, 10rem);
+  gap: clamp(0.1rem, 1dvh, 10rem);
+}

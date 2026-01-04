@@ -11,7 +11,7 @@ function PlayingBoard({
 }) {
   const { theme } = useTheme();
   const [board, setBoard] = useState(Array(9).fill(null));
-
+  const [draw, setDraw] = useState(false);
   const [turn, setTurn] = useState("X");
   const winningCombos = [
     [0, 1, 2],
@@ -28,9 +28,10 @@ function PlayingBoard({
 
   //Function for handling clicks
   function handleClick(index) {
-    if (winner) {
+    if (winner || draw) {
       setBoard(Array(9).fill(null));
       setTurn("X");
+      setDraw(false);
       return;
     }
     if (board[index]) return;
@@ -79,6 +80,10 @@ function PlayingBoard({
       setTurn("X");
     }, 500);
   }, [board, turn, mode, winner]);
+
+  useEffect(() => {
+    if (!winner && board.every((cell) => cell !== null)) setDraw(true);
+  }, [board]);
 
   return (
     <svg

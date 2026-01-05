@@ -1,6 +1,6 @@
 import { useTheme } from "../contexts/ThemeContext";
 import boardStyles from "../css/PlayingBoard.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function PlayingBoard({
   clickingEnabled,
@@ -24,7 +24,8 @@ function PlayingBoard({
     [2, 4, 6],
   ];
 
-  const winner = calculateWinner(board);
+  const [winner, setWinner] = useState(null);
+  const timerRef = useRef(null);
 
   //Function for handling clicks
   function handleClick(index) {
@@ -32,6 +33,7 @@ function PlayingBoard({
       setBoard(Array(9).fill(null));
       setTurn("X");
       setDraw(false);
+      setWinner(null);
       return;
     }
 
@@ -50,15 +52,33 @@ function PlayingBoard({
     for (let combo of winningCombos) {
       const [a, b, c] = combo;
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        return board[a];
+        return combo;
       }
     }
     return null;
   }
 
+  function getWinningLineCords(combo) {
+    const size = 33;
+    const [a, , c] = combo;
+
+    const rowA = Math.floor(a / 3);
+    const colA = a % 3;
+    const rowC = Math.floor(c / 3);
+    const colC = c % 3;
+
+    const xA = colA * size + size / 2;
+    const yA = rowA * size + size / 2;
+    const xC = colC * size + size / 2;
+    const yC = rowC * size + size / 2;
+
+    return { xA, yA, xC, yC };
+  }
+
   useEffect(() => {
-    if (winner === "X") setPl1Score((prev) => prev + 1);
-    else if (winner === "O") setPl2Score((prev) => prev + 1);
+    if (!winner) return;
+    if (board[winner[0]] === "X") setPl1Score((prev) => prev + 1);
+    else if (board[winner[0]] === "O") setPl2Score((prev) => prev + 1);
   }, [winner]);
 
   useEffect(() => {
@@ -78,13 +98,21 @@ function PlayingBoard({
     const nextBoard = [...board];
     nextBoard[randomIndex] = "O";
 
-    setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       setBoard(nextBoard);
       setTurn("X");
     }, 500);
+
+    return () => clearTimeout(timerRef.current);
   }, [board, turn, mode, winner]);
 
   useEffect(() => {
+    const combo = calculateWinner(board);
+    if (combo && !winner) {
+      setWinner(combo);
+      return;
+    }
+
     if (!winner && board.every((cell) => cell !== null)) setDraw(true);
   }, [board, winner]);
 
@@ -109,6 +137,13 @@ function PlayingBoard({
           onClick={handleClick}
         />
       ))}
+
+      {winner &&
+        (() => {
+          const { xA, yA, xC, yC } = getWinningLineCords(winner);
+
+          return <line x1={xA} y1={yA} x2={xC} y2={yC} />;
+        })()}
     </svg>
   );
 }

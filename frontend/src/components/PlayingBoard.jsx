@@ -34,13 +34,16 @@ function PlayingBoard({
       setDraw(false);
       return;
     }
-    if (board[index]) return;
 
-    const nextBoard = [...board];
-    nextBoard[index] = turn;
-    setBoard(nextBoard);
+    if (mode === "twoPlayers" || turn === "X") {
+      if (board[index]) return;
 
-    setTurn(turn === "X" ? "O" : "X");
+      const nextBoard = [...board];
+      nextBoard[index] = turn;
+      setBoard(nextBoard);
+
+      setTurn(turn === "X" ? "O" : "X");
+    }
   }
 
   function calculateWinner(board) {
@@ -83,7 +86,7 @@ function PlayingBoard({
 
   useEffect(() => {
     if (!winner && board.every((cell) => cell !== null)) setDraw(true);
-  }, [board]);
+  }, [board, winner]);
 
   return (
     <svg

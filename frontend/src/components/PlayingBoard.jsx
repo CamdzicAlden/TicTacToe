@@ -141,8 +141,18 @@ function PlayingBoard({
       {winner &&
         (() => {
           const { xA, yA, xC, yC } = getWinningLineCords(winner);
+          const length = Math.sqrt((xC - xA) ** 2 + (yC - yA) ** 2);
 
-          return <line x1={xA} y1={yA} x2={xC} y2={yC} />;
+          return (
+            <line
+              x1={xA}
+              y1={yA}
+              x2={xC}
+              y2={yC}
+              className={boardStyles.winningLine}
+              style={{ strokeDasharray: length, strokeDashoffset: length }}
+            />
+          );
         })()}
     </svg>
   );

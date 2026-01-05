@@ -40,3 +40,16 @@
   text-shadow: 0 clamp(0.1rem, 0.5dvh, 2rem) clamp(0.1rem, 0.5dvh, 2rem)
     rgba(0, 0, 0, 0.25);
 }
+
+.winningLine {
+  stroke-width: 2;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: lineDrawing 0.5s forwards 0.3s;
+}
+
+@keyframes lineDrawing {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

@@ -42,10 +42,10 @@
 }
 
 .winningLine {
-  stroke-width: 2;
+  stroke-width: 1.5;
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
-  animation: lineDrawing 0.5s forwards 0.3s;
+  animation: lineDrawing 0.3s ease forwards 0.3s;
 }
 
 @keyframes lineDrawing {

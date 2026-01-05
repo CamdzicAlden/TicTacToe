@@ -5,8 +5,8 @@
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  gap: clamp(0.2rem, 9dvh, 10rem);
-  padding-bottom: clamp(0.1rem, 10dvh, 10rem);
+  gap: clamp(0.2rem, 11dvh, 50rem);
+  padding-bottom: clamp(0.1rem, 5dvh, 10rem);
 }
 
 .navButtons {

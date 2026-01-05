@@ -1,6 +1,6 @@
 import { useTheme } from "../contexts/ThemeContext";
 import boardStyles from "../css/PlayingBoard.module.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, use } from "react";
 
 function PlayingBoard({
   clickingEnabled,
@@ -9,8 +9,11 @@ function PlayingBoard({
   setPl1Score,
   setPl2Score,
 }) {
+  const initialBoard = clickingEnabled
+    ? Array(9).fill(null)
+    : ["X", null, null, "O", "X", null, null, null, null];
   const { theme } = useTheme();
-  const [board, setBoard] = useState(Array(9).fill(null));
+  const [board, setBoard] = useState(initialBoard);
   const [draw, setDraw] = useState(false);
   const [turn, setTurn] = useState("X");
   const winningCombos = [
@@ -26,6 +29,24 @@ function PlayingBoard({
 
   const [winner, setWinner] = useState(null);
   const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (!clickingEnabled) {
+      setTimeout(() => {
+        const current = [...board];
+        current[6] = "O";
+        setBoard(current);
+      }, 700);
+
+      setTimeout(() => {
+        setBoard((prev) => {
+          const current = [...prev];
+          current[8] = "X";
+          return current;
+        });
+      }, 1200);
+    }
+  }, [clickingEnabled]);
 
   //Function for handling clicks
   function handleClick(index) {
@@ -76,7 +97,7 @@ function PlayingBoard({
   }
 
   useEffect(() => {
-    if (!winner) return;
+    if (!winner || !clickingEnabled) return;
     if (board[winner[0]] === "X") setPl1Score((prev) => prev + 1);
     else if (board[winner[0]] === "O") setPl2Score((prev) => prev + 1);
   }, [winner]);

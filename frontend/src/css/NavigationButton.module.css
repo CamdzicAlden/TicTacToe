@@ -6,7 +6,7 @@
   border-radius: 99999px;
   text-shadow: 0 clamp(0.1rem, 0.2dvh, 2rem) clamp(0.1rem, 0.2dvh, 2rem)
     rgba(0, 0, 0, 0.25);
-  width: clamp(1rem, 7dvw, 10rem);
+  width: clamp(6rem, 7dvw, 10rem);
   height: fit-content;
   line-height: 2.3;
 }

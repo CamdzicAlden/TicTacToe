@@ -8,7 +8,7 @@
 }
 
 .root img {
-  width: clamp(1rem, 3dvw, 5rem);
+  width: clamp(2.2rem, 3dvw, 5rem);
   height: auto;
 }
 

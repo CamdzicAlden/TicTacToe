@@ -5,12 +5,12 @@
 }
 
 .size1 {
-  width: clamp(1rem, 25dvw, 50rem);
+  width: clamp(17rem, 25dvw, 50rem);
   height: auto;
 }
 
 .size2 {
-  width: clamp(1rem, 35dvw, 50rem);
+  width: clamp(20rem, 35dvw, 50rem);
   height: auto;
 }
 
@@ -30,7 +30,7 @@
   opacity: var(--mark-opacity, 0);
   transform-origin: center;
   transform-box: fill-box;
-  animation: popIn 0.13s ease-out forwards;
+  animation: popIn 0.1s ease-out forwards;
   transition: opacity 0.5s ease;
 }
 

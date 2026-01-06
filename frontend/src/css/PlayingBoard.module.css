@@ -27,17 +27,33 @@
 }
 
 .mark {
-  opacity: 0;
+  opacity: var(--mark-opacity, 0);
   transform: scale(0.4);
   transform-origin: center;
   transform-box: fill-box;
   animation: popIn 0.13s ease-out forwards;
+  transition: opacity 0.5s ease;
+}
+
+.winningMark {
+  animation: winScaling 0.8s linear 1 forwards;
 }
 
 @keyframes popIn {
   to {
-    opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes winScaling {
+  0%,
+  50%,
+  100% {
+    transform: scale(1);
+  }
+  25%,
+  75% {
+    transform: scale(1.3);
   }
 }
 
@@ -60,11 +76,27 @@
   stroke-width: 1.5;
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
-  animation: lineDrawing 0.3s ease forwards 0.3s;
+  animation: lineDrawing 0.2s ease forwards 0.3s;
 }
 
 @keyframes lineDrawing {
   to {
     stroke-dashoffset: 0;
   }
+}
+
+@keyframes drawScaling {
+  0%,
+  50%,
+  100% {
+    transform: scale(1);
+  }
+  25%,
+  75% {
+    transform: scale(0.96);
+  }
+}
+
+.draw {
+  animation: drawScaling 0.6s linear;
 }

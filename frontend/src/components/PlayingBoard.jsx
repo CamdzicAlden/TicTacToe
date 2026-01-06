@@ -28,6 +28,7 @@ function PlayingBoard({
   const [winner, setWinner] = useState(null);
   const timerRef = useRef(null);
 
+  //Logic for landing page animation
   useEffect(() => {
     if (clickingEnabled) return;
 
@@ -82,6 +83,7 @@ function PlayingBoard({
     }
   }
 
+  //Function for getting the winning combo
   function calculateWinner(board) {
     for (let combo of winningCombos) {
       const [a, b, c] = combo;
@@ -92,6 +94,7 @@ function PlayingBoard({
     return null;
   }
 
+  //Function for getting winning line coodinates
   function getWinningLineCords(combo) {
     const size = 33;
     const [a, , c] = combo;
@@ -109,12 +112,14 @@ function PlayingBoard({
     return { xA, yA, xC, yC };
   }
 
+  //Logic for displaying score
   useEffect(() => {
     if (!winner || !clickingEnabled) return;
     if (board[winner[0]] === "X") setPl1Score((prev) => prev + 1);
     else if (board[winner[0]] === "O") setPl2Score((prev) => prev + 1);
   }, [winner]);
 
+  //AI logic
   useEffect(() => {
     if (mode !== "onePlayer") return;
     if (turn !== "O") return;
@@ -140,6 +145,7 @@ function PlayingBoard({
     return () => clearTimeout(timerRef.current);
   }, [board, turn, mode, winner]);
 
+  //Draw and winner logic
   useEffect(() => {
     const combo = calculateWinner(board);
     if (combo && !winner) {
@@ -155,7 +161,9 @@ function PlayingBoard({
       viewBox="0 0 101 101"
       className={`${boardStyles.root} ${
         theme === "dark" ? boardStyles.darkMode : boardStyles.lightMode
-      } ${page === "landing" ? boardStyles.size1 : boardStyles.size2}`}
+      } ${page === "landing" ? boardStyles.size1 : boardStyles.size2} ${
+        draw ? boardStyles.draw : ""
+      }`}
     >
       <line x1="33" y1="1" x2="33" y2="100" />
       <line x1="66" y1="1" x2="66" y2="100" />
@@ -168,6 +176,8 @@ function PlayingBoard({
           index={index}
           value={value}
           clickingEnabled={clickingEnabled}
+          winner={winner}
+          draw={draw}
           onClick={handleClick}
         />
       ))}
@@ -194,7 +204,7 @@ function PlayingBoard({
 
 export default PlayingBoard;
 
-function Cell({ index, value, onClick, clickingEnabled }) {
+function Cell({ index, value, onClick, clickingEnabled, winner, draw }) {
   const size = 33;
 
   const col = index % 3;
@@ -202,6 +212,8 @@ function Cell({ index, value, onClick, clickingEnabled }) {
 
   const x = col * size;
   const y = row * size;
+
+  const opacity = winner && !winner.includes(index) ? 0.3 : draw ? 0.3 : 1;
 
   return (
     <g
@@ -219,7 +231,8 @@ function Cell({ index, value, onClick, clickingEnabled }) {
           fontSize="20"
           className={`${boardStyles.mark} ${
             value === "X" ? boardStyles.X : boardStyles.O
-          }`}
+          } ${winner && winner.includes(index) ? boardStyles.winningMark : ""}`}
+          style={{ "--mark-opacity": opacity }}
         >
           {value}
         </text>

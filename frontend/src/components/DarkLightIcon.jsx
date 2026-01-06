@@ -10,11 +10,11 @@ function DarkLightIcon() {
   const image =
     theme === "dark"
       ? hover
-        ? "/icons/SunFill.svg"
-        : "/icons/SunEmpty.svg"
+        ? import.meta.env.BASE_URL + "icons/SunFill.svg"
+        : import.meta.env.BASE_URL + "icons/SunEmpty.svg"
       : hover
-      ? "/icons/MoonFill.svg"
-      : "/icons/MoonEmpty.svg";
+      ? import.meta.env.BASE_URL + "icons/MoonFill.svg"
+      : import.meta.env.BASE_URL + "icons/MoonEmpty.svg";
 
   return (
     <div className={iconStyle.root}>

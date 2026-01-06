@@ -26,6 +26,21 @@
   cursor: pointer;
 }
 
+.mark {
+  opacity: 0;
+  transform: scale(0.4);
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: popIn 0.13s ease-out forwards;
+}
+
+@keyframes popIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .X {
   fill: #e53935;
 }

@@ -1,6 +1,7 @@
 import { useTheme } from "../contexts/ThemeContext";
 import boardStyles from "../css/PlayingBoard.module.css";
-import { useState, useEffect, useRef, use } from "react";
+import { useState, useEffect, useRef } from "react";
+import { flushSync } from "react-dom";
 
 function PlayingBoard({
   clickingEnabled,
@@ -9,11 +10,8 @@ function PlayingBoard({
   setPl1Score,
   setPl2Score,
 }) {
-  const initialBoard = clickingEnabled
-    ? Array(9).fill(null)
-    : ["X", null, null, "O", "X", null, null, null, null];
   const { theme } = useTheme();
-  const [board, setBoard] = useState(initialBoard);
+  const [board, setBoard] = useState(Array(9).fill(null));
   const [draw, setDraw] = useState(false);
   const [turn, setTurn] = useState("X");
   const winningCombos = [
@@ -31,21 +29,36 @@ function PlayingBoard({
   const timerRef = useRef(null);
 
   useEffect(() => {
-    if (!clickingEnabled) {
-      setTimeout(() => {
-        const current = [...board];
-        current[6] = "O";
-        setBoard(current);
-      }, 700);
+    if (clickingEnabled) return;
 
-      setTimeout(() => {
+    const moves = [
+      [0, "X"],
+      [5, "O"],
+      [2, "X"],
+      [1, "O"],
+      [4, "X"],
+      [6, "O"],
+      [8, "X"],
+    ];
+
+    let x = 0;
+
+    const interval = setInterval(() => {
+      if (x >= moves.length) {
+        clearInterval(interval);
+        return;
+      }
+
+      flushSync(() => {
         setBoard((prev) => {
-          const current = [...prev];
-          current[8] = "X";
-          return current;
+          const next = [...prev];
+          next[moves[x][0]] = moves[x][1];
+          return next;
         });
-      }, 1200);
-    }
+      });
+
+      x++;
+    }, 400);
   }, [clickingEnabled]);
 
   //Function for handling clicks
@@ -204,7 +217,9 @@ function Cell({ index, value, onClick, clickingEnabled }) {
           textAnchor="middle"
           dominantBaseline="central"
           fontSize="20"
-          className={value === "X" ? boardStyles.X : boardStyles.O}
+          className={`${boardStyles.mark} ${
+            value === "X" ? boardStyles.X : boardStyles.O
+          }`}
         >
           {value}
         </text>

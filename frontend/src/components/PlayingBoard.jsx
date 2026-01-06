@@ -9,6 +9,7 @@ function PlayingBoard({
   mode,
   setPl1Score,
   setPl2Score,
+  setTie,
 }) {
   const { theme } = useTheme();
   const [board, setBoard] = useState(Array(9).fill(null));
@@ -112,12 +113,32 @@ function PlayingBoard({
     return { xA, yA, xC, yC };
   }
 
+  function findWinningMove(board, player) {
+    for (let combo of winningCombos) {
+      const [a, b, c] = combo;
+      const values = [board[a], board[b], board[c]];
+
+      if (
+        values.filter((value) => value === player).length === 2 &&
+        values.includes(null)
+      ) {
+        return combo[values.indexOf(null)];
+      }
+    }
+    return null;
+  }
+
   //Logic for displaying score
   useEffect(() => {
     if (!winner || !clickingEnabled) return;
     if (board[winner[0]] === "X") setPl1Score((prev) => prev + 1);
     else if (board[winner[0]] === "O") setPl2Score((prev) => prev + 1);
   }, [winner]);
+
+  useEffect(() => {
+    if (!draw || !clickingEnabled) return;
+    setTie((prev) => prev + 1);
+  }, [draw]);
 
   //AI logic
   useEffect(() => {
@@ -131,16 +152,32 @@ function PlayingBoard({
 
     if (emptyCells.length === 0) return;
 
-    const randomIndex =
-      emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    let move = null;
+
+    move = findWinningMove(board, "O");
+
+    if (move === null) move = findWinningMove(board, "X");
+
+    if (move === null && board[4] === null) move = 4;
+
+    if (move === null) {
+      const corners = [0, 2, 6, 8].filter((i) => board[i] === null);
+      if (corners.length) {
+        move = corners[Math.floor(Math.random() * corners.length)];
+      }
+    }
+
+    if (move === null) {
+      move = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    }
 
     const nextBoard = [...board];
-    nextBoard[randomIndex] = "O";
+    nextBoard[move] = "O";
 
     timerRef.current = setTimeout(() => {
       setBoard(nextBoard);
       setTurn("X");
-    }, 500);
+    }, 400);
 
     return () => clearTimeout(timerRef.current);
   }, [board, turn, mode, winner]);

@@ -28,7 +28,6 @@
 
 .mark {
   opacity: var(--mark-opacity, 0);
-  transform: scale(0.4);
   transform-origin: center;
   transform-box: fill-box;
   animation: popIn 0.13s ease-out forwards;
@@ -36,11 +35,14 @@
 }
 
 .winningMark {
-  animation: winScaling 0.8s linear 1 forwards;
+  animation: winScaling 0.8s linear 0.5s 1 forwards;
 }
 
 @keyframes popIn {
-  to {
+  0% {
+    transform: scale(0.4);
+  }
+  100% {
     transform: scale(1);
   }
 }

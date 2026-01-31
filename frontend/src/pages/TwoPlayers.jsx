@@ -11,7 +11,6 @@ function TwoPlayers() {
   const [pl2Score, setPl2Score] = useState(0);
   const [tie, setTie] = useState(0);
 
-<<<<<<< HEAD
   //Changing label text color every time turn changes
   const { turn } = useTurn();
   const pl1Class = turn === "X" ? "redText" : null;

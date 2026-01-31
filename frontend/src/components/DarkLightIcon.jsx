@@ -2,6 +2,7 @@ import iconStyle from "../css/DarkLightIcon.module.css";
 import { useTheme } from "../contexts/ThemeContext.jsx";
 import { useState } from "react";
 
+//Dark/light mode icon
 function DarkLightIcon() {
   const { theme, toggleTheme } = useTheme();
   const [hover, setHover] = useState(false);
@@ -17,11 +18,12 @@ function DarkLightIcon() {
       : import.meta.env.BASE_URL + "icons/MoonEmpty.svg";
 
   return (
+    //Main container
     <div className={iconStyle.root}>
       <img
         src={image}
         alt="S"
-        onClick={toggleTheme}
+        onClick={toggleTheme} //Change theme on icon click
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       />

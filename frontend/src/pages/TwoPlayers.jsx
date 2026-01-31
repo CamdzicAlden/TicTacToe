@@ -4,14 +4,20 @@ import LabelScore from "../components/LabelScore";
 import pageStyle from "../css/PageStyle.module.css";
 import { useState } from "react";
 
+//TwoPlayers page component
 function TwoPlayers() {
   const [pl1Score, setPl1Score] = useState(0);
   const [pl2Score, setPl2Score] = useState(0);
   const [tie, setTie] = useState(0);
 
+  //Returning elements
   return (
+    //Container
     <div className={pageStyle.root}>
+      {/*Dark/light mode switching icon*/}
       <DarkLightIcon />
+
+      {/*Playing board component*/}
       <PlayingBoard
         clickingEnabled={true}
         mode="twoPlayers"
@@ -19,6 +25,8 @@ function TwoPlayers() {
         setPl2Score={setPl2Score}
         setTie={setTie}
       />
+
+      {/*Labels container*/}
       <div className={pageStyle.label}>
         <LabelScore label="PLAYER 1" score={pl1Score} />
         <LabelScore label="TIE" score={tie} />

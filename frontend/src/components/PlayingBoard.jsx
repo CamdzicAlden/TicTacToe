@@ -3,6 +3,7 @@ import boardStyles from "../css/PlayingBoard.module.css";
 import { useState, useEffect, useRef } from "react";
 import { flushSync } from "react-dom";
 
+//Playing board component
 function PlayingBoard({
   clickingEnabled,
   page,
@@ -11,10 +12,12 @@ function PlayingBoard({
   setPl2Score,
   setTie,
 }) {
+  //Variables declaration
   const { theme } = useTheme();
   const [board, setBoard] = useState(Array(9).fill(null));
   const [draw, setDraw] = useState(false);
   const [turn, setTurn] = useState("X");
+  //Array with all possible wining combos
   const winningCombos = [
     [0, 1, 2],
     [3, 4, 5],
@@ -33,6 +36,7 @@ function PlayingBoard({
   useEffect(() => {
     if (clickingEnabled) return;
 
+    //Moves for animation
     const moves = [
       [0, "X"],
       [5, "O"],
@@ -45,13 +49,17 @@ function PlayingBoard({
 
     let x = 0;
 
+    //Play move every 400 ms
     const interval = setInterval(() => {
+      //If all moves are played
       if (x >= moves.length) {
         clearInterval(interval);
         return;
       }
 
+      //Force react to rerender
       flushSync(() => {
+        //Update playing board with moves
         setBoard((prev) => {
           const next = [...prev];
           next[moves[x][0]] = moves[x][1];
@@ -65,6 +73,7 @@ function PlayingBoard({
 
   //Function for handling clicks
   function handleClick(index) {
+    //First click after win or draw
     if (winner || draw) {
       setBoard(Array(9).fill(null));
       setTurn("X");
@@ -73,23 +82,27 @@ function PlayingBoard({
       return;
     }
 
+    //Preventing clicking while its computer turn
     if (mode === "twoPlayers" || turn === "X") {
-      if (board[index]) return;
+      if (board[index]) return; //If not empty
 
       const nextBoard = [...board];
+      //Set value of current turn (X or O) to index
       nextBoard[index] = turn;
       setBoard(nextBoard);
 
-      setTurn(turn === "X" ? "O" : "X");
+      setTurn(turn === "X" ? "O" : "X"); //Change turn
     }
   }
 
   //Function for getting the winning combo
   function calculateWinner(board) {
+    //Go through every winning combo
     for (let combo of winningCombos) {
       const [a, b, c] = combo;
+      //Check if our board has same value on all of them
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        return combo;
+        return combo; //return winning combo
       }
     }
     return null;
@@ -98,21 +111,25 @@ function PlayingBoard({
   //Function for getting winning line coodinates
   function getWinningLineCords(combo) {
     const size = 33;
-    const [a, , c] = combo;
+    const [a, , c] = combo; //First and last index
 
+    //Getting rows and columns indexes
     const rowA = Math.floor(a / 3);
     const colA = a % 3;
     const rowC = Math.floor(c / 3);
     const colC = c % 3;
 
+    //Getting cells center for both indexes
     const xA = colA * size + size / 2;
     const yA = rowA * size + size / 2;
     const xC = colC * size + size / 2;
     const yC = rowC * size + size / 2;
 
+    //Returning centers coordinates
     return { xA, yA, xC, yC };
   }
 
+  //Function for getting winning move if there is one
   function findWinningMove(board, player) {
     for (let combo of winningCombos) {
       const [a, b, c] = combo;
@@ -182,7 +199,7 @@ function PlayingBoard({
     return () => clearTimeout(timerRef.current);
   }, [board, turn, mode, winner]);
 
-  //Draw and winner logic
+  //Check if there is a winner or draw on every board change
   useEffect(() => {
     const combo = calculateWinner(board);
     if (combo && !winner) {
@@ -193,20 +210,24 @@ function PlayingBoard({
     if (!winner && board.every((cell) => cell !== null)) setDraw(true);
   }, [board, winner]);
 
+  //Returning elements
   return (
+    //Svg container for board
     <svg
-      viewBox="0 0 101 101"
+      viewBox="0 0 100 100"
       className={`${boardStyles.root} ${
         theme === "dark" ? boardStyles.darkMode : boardStyles.lightMode
       } ${page === "landing" ? boardStyles.size1 : boardStyles.size2} ${
         draw ? boardStyles.draw : ""
       }`}
     >
-      <line x1="33" y1="1" x2="33" y2="100" />
-      <line x1="66" y1="1" x2="66" y2="100" />
-      <line x1="1" y1="33" x2="100" y2="33" />
-      <line x1="1" y1="66" x2="100" y2="66" />
+      {/*Svg lines for board drawing*/}
+      <line x1="33" y1="1" x2="33" y2="99" />
+      <line x1="66" y1="1" x2="66" y2="99" />
+      <line x1="1" y1="33" x2="99" y2="33" />
+      <line x1="1" y1="66" x2="99" y2="66" />
 
+      {/*Mapping through board array and creating cell for each value*/}
       {board.map((value, index) => (
         <Cell
           key={index}
@@ -219,11 +240,18 @@ function PlayingBoard({
         />
       ))}
 
+      {/*If there is a winner*/}
       {winner &&
         (() => {
+          {
+            /*Getting winning line coords and length*/
+          }
           const { xA, yA, xC, yC } = getWinningLineCords(winner);
           const length = Math.sqrt((xC - xA) ** 2 + (yC - yA) ** 2);
 
+          {
+            /*Drawing winning line*/
+          }
           return (
             <line
               x1={xA}
@@ -241,24 +269,29 @@ function PlayingBoard({
 
 export default PlayingBoard;
 
+//Cell component
 function Cell({ index, value, onClick, clickingEnabled, winner, draw }) {
   const size = 33;
 
   const col = index % 3;
   const row = Math.floor(index / 3);
 
+  //Calculating position of cells top left corner
   const x = col * size;
   const y = row * size;
 
   const opacity = winner && !winner.includes(index) ? 0.3 : draw ? 0.3 : 1;
 
   return (
+    //Returning svg group of elements
     <g
       onClick={() => clickingEnabled && onClick(index)}
       className={clickingEnabled ? boardStyles.cell : undefined}
     >
+      {/*Drawing trasparent rectangle (clickable area)*/}
       <rect x={x} y={y} width={size} height={size} fill="transparent" />
 
+      {/*If there is a value*/}
       {value && (
         <text
           x={x + size / 2}

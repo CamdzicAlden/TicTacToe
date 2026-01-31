@@ -34,10 +34,6 @@
   transition: opacity 0.5s ease;
 }
 
-.winningMark {
-  animation: winScaling 0.8s linear 0.5s 1 forwards;
-}
-
 @keyframes popIn {
   0% {
     transform: scale(0.4);
@@ -45,6 +41,10 @@
   100% {
     transform: scale(1);
   }
+}
+
+.winningMark {
+  animation: winScaling 0.8s linear 0.5s 1 forwards;
 }
 
 @keyframes winScaling {
@@ -87,6 +87,10 @@
   }
 }
 
+.draw {
+  animation: drawAnimation 0.8s ease;
+}
+
 @keyframes drawAnimation {
   0%,
   50%,
@@ -97,8 +101,4 @@
   75% {
     stroke-opacity: 0.1;
   }
-}
-
-.draw {
-  animation: drawAnimation 0.8s ease;
 }

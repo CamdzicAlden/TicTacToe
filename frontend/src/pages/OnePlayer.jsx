@@ -5,14 +5,20 @@ import { useState } from "react";
 
 import pageStyle from "../css/PageStyle.module.css";
 
+//OnePlayer page component
 function OnePlayer() {
   const [pl1Score, setPl1Score] = useState(0);
   const [pl2Score, setPl2Score] = useState(0);
   const [tie, setTie] = useState(0);
 
+  //Returning elements
   return (
+    //Container
     <div className={pageStyle.root}>
+      {/*Dark/light mode switching icon*/}
       <DarkLightIcon />
+
+      {/*Playing board component*/}
       <PlayingBoard
         clickingEnabled={true}
         mode="onePlayer"
@@ -20,6 +26,8 @@ function OnePlayer() {
         setPl2Score={setPl2Score}
         setTie={setTie}
       />
+
+      {/*Labels container*/}
       <div className={pageStyle.label}>
         <LabelScore label="PLAYER" score={pl1Score} />
         <LabelScore label="TIE" score={tie} />

@@ -6,6 +6,7 @@ import TwoPlayers from "./pages/TwoPlayers";
 
 function App() {
   return (
+    //Defining all different app routes
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/onePlayer" element={<OnePlayer />} />

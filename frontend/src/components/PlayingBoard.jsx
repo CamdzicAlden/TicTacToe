@@ -293,19 +293,28 @@ function Cell({ index, value, onClick, clickingEnabled, winner, draw }) {
 
       {/*If there is a value*/}
       {value && (
-        <text
-          x={x + size / 2}
-          y={y + size / 2}
-          textAnchor="middle"
-          dominantBaseline="central"
-          fontSize="20"
-          className={`${boardStyles.mark} ${
-            value === "X" ? boardStyles.X : boardStyles.O
-          } ${winner && winner.includes(index) ? boardStyles.winningMark : ""}`}
-          style={{ "--mark-opacity": opacity }}
-        >
-          {value}
-        </text>
+        //Positioning group
+        <g transform={`translate(${x + size / 2}, ${y + size / 2})`}>
+          {/* Animation group */}
+          <g
+            className={`${boardStyles.mark} ${
+              winner && winner.includes(index) ? boardStyles.winningMark : ""
+            }`}
+            style={{ "--mark-opacity": opacity }}
+          >
+            <text
+              x={0}
+              y={0}
+              dy="0.08em"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fontSize="20"
+              className={value === "X" ? boardStyles.X : boardStyles.O}
+            >
+              {value}
+            </text>
+          </g>
+        </g>
       )}
     </g>
   );

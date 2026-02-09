@@ -7,3 +7,8 @@
   font-size: clamp(0.2rem, 2.5dvh, 10rem);
   gap: clamp(0.1rem, 1dvh, 10rem);
 }
+
+.redText {
+  color: #ef4444;
+  transition: color 0.2s ease;
+}

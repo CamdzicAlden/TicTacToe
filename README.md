@@ -58,7 +58,7 @@ Choose between single-player or two-player mode and see who can claim victory!
     <img src="./resources/OnePlayer.png" alt="1Player" height="300"> 
     </p>
   <br>
-  - 👥 **Two Players:** Play with a friend on the same device.
+  - 👥 <b>Two Players:</b> Play with a friend on the same device.
 
   <br>
     <p align="center">

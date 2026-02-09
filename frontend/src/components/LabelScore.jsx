@@ -1,10 +1,10 @@
 import styles from "../css/LabelScore.module.css";
 
 //Component for displaying label and score
-function LabelScore({ label, score }) {
+function LabelScore({ label, score, textColor }) {
   return (
     <div className={styles.root}>
-      <p>{label}</p>
+      <p className={textColor ? styles[textColor] : ""}>{label}</p>
       <p>{score}</p>
     </div>
   );

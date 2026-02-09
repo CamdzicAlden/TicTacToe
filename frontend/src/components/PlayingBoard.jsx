@@ -1,4 +1,5 @@
 import { useTheme } from "../contexts/ThemeContext";
+import { useTurn } from "../contexts/TurnContext";
 import boardStyles from "../css/PlayingBoard.module.css";
 import { useState, useEffect, useRef } from "react";
 import { flushSync } from "react-dom";
@@ -16,7 +17,8 @@ function PlayingBoard({
   const { theme } = useTheme();
   const [board, setBoard] = useState(Array(9).fill(null));
   const [draw, setDraw] = useState(false);
-  const [turn, setTurn] = useState("X");
+  const { turn, setTurn } = useTurn();
+  const [gamesPlayed, setGamesPlayed] = useState(0);
   //Array with all possible wining combos
   const winningCombos = [
     [0, 1, 2],
@@ -76,7 +78,11 @@ function PlayingBoard({
     //First click after win or draw
     if (winner || draw) {
       setBoard(Array(9).fill(null));
-      setTurn("X");
+      setGamesPlayed((prev) => {
+        const next = prev + 1;
+        setTurn(next % 2 == 0 ? "X" : "O");
+        return next;
+      });
       setDraw(false);
       setWinner(null);
       return;
@@ -209,6 +215,10 @@ function PlayingBoard({
 
     if (!winner && board.every((cell) => cell !== null)) setDraw(true);
   }, [board, winner]);
+
+  useEffect(() => {
+    setTurn("X");
+  }, [mode]);
 
   //Returning elements
   return (
